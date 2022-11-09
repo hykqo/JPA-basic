@@ -14,13 +14,17 @@ public class JpaMain {
         tx.begin();
         try{
             Member member = new Member();
-            member.setId(1L);
+            member.setId(101L);
             member.setName("HelloJPA");
 
-            //영속
             System.out.println("===before===");
             em.persist(member);
             System.out.println("===after===");
+
+            em.find(Member.class, 101L);
+            System.out.println("member.getId() = " + member.getId());
+            System.out.println("member.getName() = " + member.getName());
+
             tx.commit();
         } catch (Exception e){
             tx.rollback();
