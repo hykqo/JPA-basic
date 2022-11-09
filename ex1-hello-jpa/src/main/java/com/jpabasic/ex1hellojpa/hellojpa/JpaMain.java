@@ -13,17 +13,10 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try{
-            Member member = new Member();
-            member.setId(101L);
-            member.setName("HelloJPA");
-
-            System.out.println("===before===");
-            em.persist(member);
-            System.out.println("===after===");
-
-            em.find(Member.class, 101L);
-            System.out.println("member.getId() = " + member.getId());
-            System.out.println("member.getName() = " + member.getName());
+            //db에서 조회하기 때문에 쿼리가 나기야 한다.
+            Member member1 = em.find(Member.class, 101L);
+            //1차 캐시에서 조회하기 때문에 쿼리가 나가면 안된다.
+            Member member2 = em.find(Member.class, 101L);
 
             tx.commit();
         } catch (Exception e){
