@@ -14,9 +14,9 @@ public class JpaMain {
         tx.begin();
         try{
             Member member = em.find(Member.class, 2L);
-            //준영속
+            //삭제
             System.out.println("===before===");
-            em.detach(member);
+            em.remove(member);
             System.out.println("===after===");
             tx.commit();
         } catch (Exception e){
