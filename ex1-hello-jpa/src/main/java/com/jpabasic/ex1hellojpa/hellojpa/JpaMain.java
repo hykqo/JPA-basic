@@ -14,6 +14,7 @@ public class JpaMain {
         tx.begin();
         try{
             Member member = em.find(Member.class, 2L);
+            //준영속
             System.out.println("===before===");
             em.detach(member);
             System.out.println("===after===");
