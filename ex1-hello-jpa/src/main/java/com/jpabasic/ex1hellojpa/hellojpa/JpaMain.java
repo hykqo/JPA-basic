@@ -13,10 +13,13 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try{
-            Member member = em.find(Member.class, 2L);
-            //삭제
+            Member member = new Member();
+            member.setId(1L);
+            member.setName("HelloJPA");
+
+            //영속
             System.out.println("===before===");
-            em.remove(member);
+            em.persist(member);
             System.out.println("===after===");
             tx.commit();
         } catch (Exception e){
