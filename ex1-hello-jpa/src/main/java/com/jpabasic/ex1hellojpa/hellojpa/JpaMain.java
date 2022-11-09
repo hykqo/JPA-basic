@@ -9,18 +9,14 @@ import java.util.List;
 public class JpaMain {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
-
         EntityManager em = emf.createEntityManager();
-
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try{
-//            Member member = em.find(Member.class, 2L);
-            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(1)
-                    .setMaxResults(10)
-                    .getResultList();
-
+            Member member = em.find(Member.class, 2L);
+            System.out.println("===before===");
+            em.detach(member);
+            System.out.println("===after===");
             tx.commit();
         } catch (Exception e){
             tx.rollback();
