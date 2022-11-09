@@ -17,7 +17,7 @@ public class JpaMain {
             Member member1 = em.find(Member.class, 101L);
             //1차 캐시에서 조회하기 때문에 쿼리가 나가면 안된다.
             Member member2 = em.find(Member.class, 101L);
-
+            System.out.println(member1 == member2);
             tx.commit();
         } catch (Exception e){
             tx.rollback();
