@@ -13,11 +13,11 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try{
-            //db에서 조회하기 때문에 쿼리가 나기야 한다.
-            Member member1 = em.find(Member.class, 101L);
-            //1차 캐시에서 조회하기 때문에 쿼리가 나가면 안된다.
-            Member member2 = em.find(Member.class, 101L);
-            System.out.println(member1 == member2);
+            Member member = em.find(Member.class, 150L);
+            member.setName("zzzzz");
+
+            System.out.println("===============");
+
             tx.commit();
         } catch (Exception e){
             tx.rollback();
