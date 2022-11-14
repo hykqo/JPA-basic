@@ -1,14 +1,19 @@
 package com.jpabasic.ex1hellojpa.hellojpa;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-public class Member {
+@Table(name = "MEMBER")
+ public class Member {
 
     @Id
-    public Long id;
-    public String name;
+    private Long id;
+    @Column(unique = true, length = 10)
+    private String name;
+    private int gogo;
 
     //JPA는 기본생성자가 1개 있어야 한다.
     public Member(){
