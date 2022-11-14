@@ -17,8 +17,9 @@ public class JpaMain {
             member.setName("AAAA");
             em.close();
 //            em.detach(member);
+//            em.clear();
             System.out.println(em.getReference(Member.class, member.getId()).getClass());
-
+            Member membe2 = em.find(Member.class, 150L);
             tx.commit();
         } catch (Exception e){
             tx.rollback();
