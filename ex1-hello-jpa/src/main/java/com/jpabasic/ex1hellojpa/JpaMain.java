@@ -1,9 +1,7 @@
 package com.jpabasic.ex1hellojpa;
 
-import com.jpabasic.ex1hellojpa.domain.Member;
-import com.jpabasic.ex1hellojpa.domain.Order;
-import org.hibernate.engine.spi.SessionFactoryDelegatingImpl;
-import org.hibernate.engine.transaction.internal.TransactionImpl;
+import com.jpabasic.ex1hellojpa.hellojpa.HelloMember;
+import com.jpabasic.ex1hellojpa.hellojpa.Team;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -15,10 +13,26 @@ public class JpaMain {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpashop");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
+        tx.begin();
         try{
-            Order order = em.find(Order.class, 1L);
-            Long memberId = order.getMemberId();
-            Member member= em.find(Member.class, 1L);
+            //저장
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
+
+            HelloMember member = new HelloMember();
+            member.setUsername("member1");
+            member.setTeam(team);
+            em.persist(member);
+
+            //조회
+            HelloMember findMember = em.find(HelloMember.class, member.getId());
+            Team findTeam = findMember.getTeam();
+            System.out.println("findTeam.getName() = " + findTeam.getName());
+
+            //수정
+            Team newTeam = em.find(Team.class, 100L);
+            findMember.setTeam(newTeam);
 
             tx.commit();
         }catch (Exception e){
