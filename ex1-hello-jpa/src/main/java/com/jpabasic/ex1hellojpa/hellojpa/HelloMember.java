@@ -43,4 +43,12 @@ import javax.persistence.*;
         team.getMembers().add(this);
     }
 
+//    @Override
+//    public String toString() {
+//        return "HelloMember{" +
+//                "id=" + id +
+//                ", username='" + username + '\'' +
+//                ", team=" + team +
+//                '}';
+//    }
 }

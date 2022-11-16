@@ -45,4 +45,12 @@ public class Team {
         members.add(member);
     }
 
+//    @Override
+//    public String toString() {
+//        return "Team{" +
+//                "id=" + id +
+//                ", members=" + members +
+//                ", name='" + name + '\'' +
+//                '}';
+//    }
 }
