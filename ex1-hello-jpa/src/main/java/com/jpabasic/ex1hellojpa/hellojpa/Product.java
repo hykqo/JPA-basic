@@ -1,19 +1,20 @@
 package com.jpabasic.ex1hellojpa.hellojpa;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-public class Locker {
+public class Product {
 
     @Id @GeneratedValue
-    @Column(name = "LOCKER_ID")
     private Long id;
     private String name;
-    @OneToOne(mappedBy = "locker")
-    private HelloMember member;
-
-
-
+    @ManyToMany(mappedBy = "products")
+    private List<HelloMember> members = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -30,13 +31,4 @@ public class Locker {
     public void setName(String name) {
         this.name = name;
     }
-
-    public HelloMember getMember() {
-        return member;
-    }
-
-    public void setMember(HelloMember member) {
-        this.member = member;
-    }
-
 }
