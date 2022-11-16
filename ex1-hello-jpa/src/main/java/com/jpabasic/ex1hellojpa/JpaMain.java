@@ -1,5 +1,6 @@
 package com.jpabasic.ex1hellojpa;
 
+import com.jpabasic.ex1hellojpa.domain.Member;
 import com.jpabasic.ex1hellojpa.hellojpa.HelloMember;
 import com.jpabasic.ex1hellojpa.hellojpa.Team;
 
@@ -16,26 +17,29 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try{
-            //저장
             Team team = new Team();
             team.setName("TeamA");
             em.persist(team);
 
             HelloMember member = new HelloMember();
             member.setUsername("member1");
-            member.setTeam(team);
+            member.changeTeam(team);
             em.persist(member);
+
+            team.addMember(member);
 
             em.flush();
             em.clear();
 
-            //조회
-            HelloMember findMember = em.find(HelloMember.class, member.getId());
-            List<HelloMember> memberList = findMember.getTeam().getMembers();
-            for(HelloMember m : memberList) System.out.println("m.getUsername() = " + m.getUsername());
+            Team findTeam = em.find(Team.class, team.getId()); //1차캐시에 있음.
+            List<HelloMember> members = findTeam.getMembers();
+
+            for(HelloMember m : members) System.out.println("m = " + m.getUsername());
+
 
             tx.commit();
         }catch (Exception e){
+            e.printStackTrace();
             tx.rollback();
         }finally {
             em.close();
