@@ -10,9 +10,6 @@ import javax.persistence.*;
     private Long id;
     @Column(name = "USERNAME")
     private String username;
-    @ManyToOne
-    @JoinColumn(name = "TEAM_ID")
-    private Team team;
 
    public Long getId() {
       return id;
@@ -30,25 +27,4 @@ import javax.persistence.*;
       this.username = username;
    }
 
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-    public void changeTeam(Team team) {
-        this.team = team;
-        team.getMembers().add(this);
-    }
-
-//    @Override
-//    public String toString() {
-//        return "HelloMember{" +
-//                "id=" + id +
-//                ", username='" + username + '\'' +
-//                ", team=" + team +
-//                '}';
-//    }
 }

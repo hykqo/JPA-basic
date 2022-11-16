@@ -11,7 +11,8 @@ public class Team {
     @Id @GeneratedValue
     @Column(name = "TEAM_ID")
     private Long id;
-    @OneToMany(mappedBy = "team")
+    @OneToMany
+    @JoinColumn(name = "TEAM_ID")
     private List<HelloMember> members = new ArrayList<>();
 
     private String name;
@@ -40,17 +41,4 @@ public class Team {
         this.members = members;
     }
 
-    public void addMember(HelloMember member){
-        member.setTeam(this);
-        members.add(member);
-    }
-
-//    @Override
-//    public String toString() {
-//        return "Team{" +
-//                "id=" + id +
-//                ", members=" + members +
-//                ", name='" + name + '\'' +
-//                '}';
-//    }
 }
