@@ -1,14 +1,13 @@
 package com.jpabasic.ex1hellojpa;
 
+import com.jpabasic.ex1hellojpa.domain.Item;
 import com.jpabasic.ex1hellojpa.domain.Member;
-import com.jpabasic.ex1hellojpa.hellojpa.HelloMember;
-import com.jpabasic.ex1hellojpa.hellojpa.Team;
-
+import com.jpabasic.ex1hellojpa.domain.Order;
+import com.jpabasic.ex1hellojpa.domain.OrderItem;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.util.List;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -17,25 +16,27 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try{
-            Team team = new Team();
-            team.setName("TeamA");
-            em.persist(team);
-
-            HelloMember member = new HelloMember();
-            member.setUsername("member1");
-            member.changeTeam(team);
+            //회원 생성
+            Member member = new Member();
+            member.setName("A");
             em.persist(member);
+            //상품 생성
+            Item item = new Item();
+            item.setName("상품1");
+            item.setPrice(100);
+            em.persist(item);
+            //주문 생성
+            Order order = new Order();
+            order.setMember(member);
+            em.persist(order);
+            //주문하는 상품 생성 및 연관관계 처리.
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrder(order);
+            orderItem.setItem(item);
+            orderItem.setOrderPrice(item.getPrice());
+            em.persist(orderItem);
 
-            team.addMember(member);
-
-            em.flush();
-            em.clear();
-
-            Team findTeam = em.find(Team.class, team.getId()); //1차캐시에 있음.
-            List<HelloMember> members = findTeam.getMembers();
-
-            for(HelloMember m : members) System.out.println("m = " + m.getUsername());
-
+            order.addOrderItem(orderItem);
 
             tx.commit();
         }catch (Exception e){
