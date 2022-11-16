@@ -18,12 +18,10 @@ import java.util.List;
     @OneToOne
     @JoinColumn(name = "LOCKER_ID")
     private Locker locker;
-    @ManyToMany
-    @JoinTable(name = "MEMBER_PROUCT")
-    private List<Product> products = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<MemberProduct> memberProduct;
 
-
-   public Long getId() {
+    public Long getId() {
       return id;
    }
 
