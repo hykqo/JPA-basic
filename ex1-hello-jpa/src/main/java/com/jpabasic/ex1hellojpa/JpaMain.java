@@ -20,16 +20,7 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try{
-            Locker locker = new Locker();
-            locker.setName("1L");
-            em.persist(locker);
 
-            HelloMember member = new HelloMember();
-            member.setUsername("A");
-            member.setLocker(locker);
-            em.persist(member);
-
-            locker.setMember(member);
             tx.commit();
         }catch (Exception e){
             e.printStackTrace();
