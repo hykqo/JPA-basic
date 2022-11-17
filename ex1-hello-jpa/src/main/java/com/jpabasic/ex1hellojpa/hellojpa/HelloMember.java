@@ -1,11 +1,12 @@
 package com.jpabasic.ex1hellojpa.hellojpa;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "HELLO_MEMBER")
- public class HelloMember {
+ public class HelloMember extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "MEMBER_ID")

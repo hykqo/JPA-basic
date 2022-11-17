@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.time.LocalDateTime;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -18,18 +19,14 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try{
-            Movie movie = new Movie();
-            movie.setDirect("aaa");
-            movie.setActor("bbb");
-            movie.setName("영화제목");
-            movie.setPrice(1000);
-            em.persist(movie);
-            
+            HelloMember member = new HelloMember();
+            member.setUsername("AAA");
+            member.setCreatedBy("kin1");
+            member.setCreatedDate(LocalDateTime.now());
+            em.persist(member);
+
             em.flush();
             em.clear();
-
-            HelloItem helloItem = em.find(HelloItem.class, movie.getId());
-            System.out.println("helloItem = " + helloItem.getName());
 
             tx.commit();
         }catch (Exception e){
