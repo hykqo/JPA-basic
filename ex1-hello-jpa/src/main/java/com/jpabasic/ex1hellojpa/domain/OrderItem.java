@@ -1,9 +1,11 @@
 package com.jpabasic.ex1hellojpa.domain;
 
+import com.jpabasic.ex1hellojpa.hellojpa.BaseEntity;
+
 import javax.persistence.*;
 
 @Entity
-public class OrderItem {
+public class OrderItem extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "ORDER_ITEM_ID")

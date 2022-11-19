@@ -1,9 +1,6 @@
 package com.jpabasic.ex1hellojpa;
 
-import com.jpabasic.ex1hellojpa.domain.Item;
-import com.jpabasic.ex1hellojpa.domain.Member;
-import com.jpabasic.ex1hellojpa.domain.Order;
-import com.jpabasic.ex1hellojpa.domain.OrderItem;
+import com.jpabasic.ex1hellojpa.domain.*;
 import com.jpabasic.ex1hellojpa.hellojpa.*;
 
 import javax.persistence.EntityManager;
@@ -19,14 +16,11 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try{
-            HelloMember member = new HelloMember();
-            member.setUsername("AAA");
-            member.setCreatedBy("kin1");
-            member.setCreatedDate(LocalDateTime.now());
-            em.persist(member);
+            Book book = new Book();
+            book.setName("JPA");
+            book.setAuthor("김영한");
 
-            em.flush();
-            em.clear();
+            em.persist(book);
 
             tx.commit();
         }catch (Exception e){
