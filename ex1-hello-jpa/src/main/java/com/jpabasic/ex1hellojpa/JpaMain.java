@@ -1,11 +1,9 @@
 package com.jpabasic.ex1hellojpa;
 
 import com.jpabasic.ex1hellojpa.hellojpa.*;
+import org.hibernate.Hibernate;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -54,10 +52,15 @@ public class JpaMain {
             em.clear();
 
             //영속성 컨텍스트의 도움을 받을 수 없는 준영속 상태일 때, 프록시를 초기화하면 문제 발생
-            HelloMember m7 = em.getReference(HelloMember.class, member.getId());
-            em.detach(m7);
+//            HelloMember m7 = em.getReference(HelloMember.class, member.getId());
+//            em.detach(m7);
+//            m7.getUsername();
 
-            m7.getUsername();
+            //프록시 인스턴스의 초기화 여부 확인기능.
+            HelloMember m8 = em.getReference(HelloMember.class, member.getId());
+            System.out.println("getPersistenceUnitUtil.isLoaded = "+ emf.getPersistenceUnitUtil().isLoaded(m8));
+            Hibernate.initialize(m8);
+            System.out.println("getPersistenceUnitUtil.isLoaded = "+ emf.getPersistenceUnitUtil().isLoaded(m8));
 
             tx.commit();
         }catch (Exception e){
