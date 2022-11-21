@@ -29,9 +29,6 @@ public class JpaMain {
             System.out.println("member1.getClass() = " + member1.getClass());
             System.out.println("member1.getTeam().getClass() = " + member1.getTeam().getClass());
 
-            System.out.println("======");
-            member.getTeam().getName(); //이떄 초기화가 실행됨.
-            System.out.println("======");
             tx.commit();
         }catch (Exception e){
             e.printStackTrace();
