@@ -13,16 +13,20 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try{
-
+            Address address = new Address("city", "street", "zipcode");
             HelloMember member = new HelloMember();
             member.setUsername("hello");
-            member.setHomeAddress(new Address("city", "street", "zipcode"));
-            member.setWorkPeriod(new Period());
+            member.setHomeAddress(address);
             em.persist(member);
+
+            Address copyAddress = new Address(address.getCity(), address.getStreet(), address.getZipcode());
+            HelloMember member2 = new HelloMember();
+            member2.setUsername("hello2");
+            member2.setHomeAddress(copyAddress);
+            em.persist(member2);
+
+
             tx.commit();
-
-            System.out.println(member.getWorkPeriod().workP());
-
 
         }catch (Exception e){
             e.printStackTrace();
