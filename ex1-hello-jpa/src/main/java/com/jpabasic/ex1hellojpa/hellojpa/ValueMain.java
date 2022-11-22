@@ -14,7 +14,7 @@ public class ValueMain {
         Integer c = new Integer(10);
         Integer d = c;
 
-        a.setValue(20);
+//        a.setValue(20);
 
         System.out.println("c = " + c);
         System.out.println("d = " + d);

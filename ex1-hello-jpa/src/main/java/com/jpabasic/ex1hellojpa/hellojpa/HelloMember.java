@@ -1,8 +1,5 @@
-package com.jpabasic.ex1hellojpa.hellojpa;
+package com.jpabasic.ex1hellojpa.hellojpa ;
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "HELLO_MEMBER")
@@ -13,16 +10,19 @@ import java.util.List;
     private Long id;
     @Column(name = "USERNAME")
     private String username;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "TEAM_ID")
-    private Team team;
-//    @OneToOne
-//    @JoinColumn(name = "LOCKER_ID")
-//    private Locker locker;
-    @OneToMany(mappedBy = "member")
-    private List<MemberProduct> memberProduct;
+    @Embedded
+    private Period workPeriod = null; //null로 지정할경우 Period 클래스의 값은 전부 null로 기입된다.
+    @Embedded
+    private Address homeAddress;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "city", column = @Column(name = "WORK_CITY")),
+            @AttributeOverride(name = "street", column = @Column(name = "WORK_STREET")),
+            @AttributeOverride(name = "zipcode", column = @Column(name = "WORK_ZIPCODE"))
+    })
+    private Address workAddress;
 
-    public Long getId() {
+   public Long getId() {
       return id;
    }
 
@@ -38,19 +38,19 @@ import java.util.List;
       this.username = username;
    }
 
-    public Team getTeam() {
-        return team;
-    }
+   public Period getWorkPeriod() {
+      return workPeriod;
+   }
 
-    public void setTeam(Team team) {
-        this.team = team;
-    }
+   public void setWorkPeriod(Period workPeriod) {
+      this.workPeriod = workPeriod;
+   }
 
-//    public Locker getLocker() {
-//        return locker;
-//    }
-//
-//    public void setLocker(Locker locker) {
-//        this.locker = locker;
-//    }
+   public Address getHomeAddress() {
+      return homeAddress;
+   }
+
+   public void setHomeAddress(Address homeAddress) {
+      this.homeAddress = homeAddress;
+   }
 }

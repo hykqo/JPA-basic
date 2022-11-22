@@ -13,26 +13,16 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try{
-            Child child1 = new Child();
-            child1.setName("child1");
-            Child child2 = new Child();
-            child2.setName("child2");
 
-            Parent parent = new Parent();
-            parent.setName("parent1");
-            parent.addChild(child1);
-            parent.addChild(child2);
-
-            em.persist(parent);
-            em.persist(child1);
-            em.persist(child2);
-
-            em.flush();
-            em.clear();
-
-            Parent findP = em.find(Parent.class, parent.getId());
-            em.remove(findP);
+            HelloMember member = new HelloMember();
+            member.setUsername("hello");
+            member.setHomeAddress(new Address("city", "street", "zipcode"));
+            member.setWorkPeriod(new Period());
+            em.persist(member);
             tx.commit();
+
+            System.out.println(member.getWorkPeriod().workP());
+
 
         }catch (Exception e){
             e.printStackTrace();
@@ -40,13 +30,5 @@ public class JpaMain {
         }finally {
             em.close();
         }
-    }
-
-    private static void printMemberAndTeam(HelloMember member) {
-        String username = member.getUsername();
-        System.out.println("username = " + username);
-
-        Team team = member.getTeam();
-        System.out.println("team = " + team);
     }
 }
