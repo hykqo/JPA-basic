@@ -5,6 +5,7 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -13,18 +14,33 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try{
-            Address address = new Address("city", "street", "zipcode");
             HelloMember member = new HelloMember();
-            member.setUsername("hello");
-            member.setHomeAddress(address);
+            member.setUsername("member1");
+            member.setHomeAddress(new Address("homeCity", "street", "10000"));
+
+            member.getFavoriteFoods().add("치킨");
+            member.getFavoriteFoods().add("피자");
+            member.getFavoriteFoods().add("족발");
+
+            member.getAddresseHistory().add(new Address("old1", "street", "10000"));
+            member.getAddresseHistory().add(new Address("old2", "street", "10000"));
+
             em.persist(member);
 
-            Address copyAddress = new Address(address.getCity(), address.getStreet(), address.getZipcode());
-            HelloMember member2 = new HelloMember();
-            member2.setUsername("hello2");
-            member2.setHomeAddress(copyAddress);
-            em.persist(member2);
+            em.flush();
+            em.clear();
 
+            //컬렉션안의 치킨 -> 한식
+            System.out.println("===========START============");
+            HelloMember member1 = em.find(HelloMember.class, member.getId());
+            Address a  = member1.getHomeAddress();
+
+            //치킨 -> 한식
+            member1.getFavoriteFoods().remove("치킨");
+            member1.getFavoriteFoods().add("한식");
+
+            member1.getAddresseHistory().remove(new Address("old2", "street", "10000"));
+            member1.getAddresseHistory().add(new Address("newCity2", "street", "10000"));
 
             tx.commit();
 
