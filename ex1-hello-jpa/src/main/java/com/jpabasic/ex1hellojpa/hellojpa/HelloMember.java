@@ -23,9 +23,11 @@ import java.util.Set;
     @CollectionTable(name = "FAVORITE_FOOD", joinColumns = @JoinColumn(name = "MEMBER_ID"))
     @Column(name = "FOOD_NAME") //칼럼이 id제외하고 하나밖에 없으면 JPA가 예외적으로 해당 컬럼을 만들어준다.
     private Set<String> favoriteFoods = new HashSet<>();
-    @ElementCollection
-    @CollectionTable(name = "ADDRESS", joinColumns = @JoinColumn(name = "MEMBER_ID"))
-    private List<Address> addresseHistory = new ArrayList<>();
+//    @ElementCollection
+//    @CollectionTable(name = "ADDRESS", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "MEMBER_ID")
+    private List<AddressEntity> addresseHistory = new ArrayList<>();
 
    public Long getId() {
       return id;
@@ -64,7 +66,7 @@ import java.util.Set;
         return favoriteFoods;
     }
 
-    public List<Address> getAddresseHistory() {
+    public List<AddressEntity> getAddresseHistory() {
         return addresseHistory;
     }
 }
