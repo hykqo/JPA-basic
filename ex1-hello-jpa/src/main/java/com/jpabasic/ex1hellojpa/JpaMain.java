@@ -18,16 +18,7 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try{
-            //criteria 사용 준비
-            CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery<HelloMember> query = cb.createQuery(HelloMember.class);
-
-            //루트 클래스(조회를 시작할 클래스)
-            Root<HelloMember> m = query.from(HelloMember.class);
-
-            //쿼리생성
-            CriteriaQuery<HelloMember> cq = query.select(m).where(cb.equal(m.get("username"), "kim"));
-            List<HelloMember> resultList = em.createQuery(cq).getResultList();
+            em.createNativeQuery("select * from hellomember").getResultList();
 
             tx.commit();
         }catch (Exception e){
