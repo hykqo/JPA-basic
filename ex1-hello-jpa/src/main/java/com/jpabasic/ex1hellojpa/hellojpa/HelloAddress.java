@@ -4,15 +4,15 @@ import javax.persistence.Embeddable;
 import java.util.Objects;
 
 @Embeddable
-public class Address {
+public class HelloAddress {
     private String city;
     private String street;
     private String zipcode;
 
-    public Address() {
+    public HelloAddress() {
     }
 
-    public Address(String city, String street, String zipcode) {
+    public HelloAddress(String city, String street, String zipcode) {
         this.city = city;
         this.street = street;
         this.zipcode = zipcode;
@@ -43,16 +43,17 @@ public class Address {
         this.zipcode = zipcode;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Address address = (Address) o;
-        return Objects.equals(city, address.city) && Objects.equals(street, address.street) && Objects.equals(zipcode, address.zipcode);
+        HelloAddress that = (HelloAddress) o;
+        return Objects.equals(getCity(), that.getCity()) && Objects.equals(getStreet(), that.getStreet()) && Objects.equals(getZipcode(), that.getZipcode());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(city, street, zipcode);
+        return Objects.hash(getCity(), getStreet(), getZipcode());
     }
 }

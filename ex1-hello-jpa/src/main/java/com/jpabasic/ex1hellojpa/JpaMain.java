@@ -16,7 +16,7 @@ public class JpaMain {
         try{
             HelloMember member = new HelloMember();
             member.setUsername("member1");
-            member.setHomeAddress(new Address("homeCity", "street", "10000"));
+            member.setHomeAddress(new HelloAddress("homeCity", "street", "10000"));
 
             member.getFavoriteFoods().add("치킨");
             member.getFavoriteFoods().add("피자");
@@ -33,7 +33,7 @@ public class JpaMain {
             //컬렉션안의 치킨 -> 한식
             System.out.println("===========START============");
             HelloMember member1 = em.find(HelloMember.class, member.getId());
-            Address a  = member1.getHomeAddress();
+            HelloAddress a  = member1.getHomeAddress();
 
             //치킨 -> 한식
             member1.getFavoriteFoods().remove("치킨");

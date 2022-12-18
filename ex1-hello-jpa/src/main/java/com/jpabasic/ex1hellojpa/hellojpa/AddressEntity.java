@@ -4,15 +4,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Entity(name = "ADDRESS")
+@Entity(name = "HELLOADDRESS")
 public class AddressEntity {
 
     @Id @GeneratedValue
     private Long id;
-    private Address address;
+    private HelloAddress address;
+
+    public AddressEntity(){}
 
     public AddressEntity(String old2, String street, String s) {
-        this.address = new Address(old2, street, s);
+        this.address = new HelloAddress(old2, street, s);
     }
 
 
@@ -24,11 +26,11 @@ public class AddressEntity {
         this.id = id;
     }
 
-    public Address getAddress() {
+    public HelloAddress getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(HelloAddress address) {
         this.address = address;
     }
 }

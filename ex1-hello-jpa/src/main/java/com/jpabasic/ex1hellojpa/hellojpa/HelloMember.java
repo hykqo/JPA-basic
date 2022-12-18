@@ -17,7 +17,7 @@ import java.util.Set;
     @Embedded
     private Period workPeriod = null; //null로 지정할경우 Period 클래스의 값은 전부 null로 기입된다.
     @Embedded
-    private Address homeAddress;
+    private HelloAddress homeAddress;
 
     @ElementCollection
     @CollectionTable(name = "FAVORITE_FOOD", joinColumns = @JoinColumn(name = "MEMBER_ID"))
@@ -53,11 +53,11 @@ import java.util.Set;
       this.workPeriod = workPeriod;
    }
 
-   public Address getHomeAddress() {
+   public HelloAddress getHomeAddress() {
       return homeAddress;
    }
 
-   public void setHomeAddress(Address homeAddress) {
+   public void setHomeAddress(HelloAddress homeAddress) {
       this.homeAddress = homeAddress;
    }
 
