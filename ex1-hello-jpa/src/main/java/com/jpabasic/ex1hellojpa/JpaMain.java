@@ -58,6 +58,26 @@ public class JpaMain {
             List<JMemberDTO> resultList3 = em.createQuery("SELECT new com.jpabasic.ex1hellojpa.jpql.jdto.JMemberDTO(m.username, m.age) FROM JMember m", JMemberDTO.class).getResultList();
             System.out.println("resultList3.get(0).getUsername() = " + resultList3.get(0).getUsername());
             System.out.println("resultList3.get(0).getAge() = " + resultList3.get(0).getAge());
+
+            //페이징
+            for(int i = 0; i < 100; i++){
+                JMember member2 = new JMember();
+                member2.setUsername("member" + i);
+                member2.setAge(i);
+                em.persist(member2);
+            }
+
+            em.flush();
+            em.clear();
+
+            List<JMember> resultList4 = em.createQuery("select m from JMember m order  by m.age desc", JMember.class)
+                    .setFirstResult(0)
+                    .setMaxResults(10)
+                    .getResultList();
+            System.out.println("resultList4.size() = " + resultList4.size());
+            for(JMember m : resultList4) System.out.println("m = " + m);
+
+            
             tx.commit();
         }catch (Exception e){
             e.printStackTrace();
