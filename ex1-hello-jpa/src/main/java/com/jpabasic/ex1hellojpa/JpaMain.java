@@ -25,18 +25,10 @@ public class JpaMain {
 
             em.flush();
             em.clear();
-            //내부조인
-            List<JMember> members = em.createQuery("select m from JMember m inner join m.team t", JMember.class).getResultList();
-            //외부조인
-            List<JMember> members1 = em.createQuery("select m from JMember m left join m.team t", JMember.class).getResultList();
-            //세타조인
-            List<JMember> members2 = em.createQuery("select m from JMember m, JTeam  t where m.username = t.name", JMember.class).getResultList();
 
-            //on절 활용(조인 대상 필터링)
-            List<JMember> members4 = em.createQuery("select m from JMember m left join m.team t on t.name = 'teamA'", JMember.class).getResultList();
-            //on절 활용(연관관계 없는 조인)
-            List<JMember> members5 = em.createQuery("select m from JMember m left join m.team t on t.name = m.username", JMember.class).getResultList();
-
+            //select 서브쿼리
+            List<JMember> members = em.createQuery("select (select avg(m1.age) from JMember m1) as avgAGE from JMember m join Team t", JMember.class).getResultList();
+            //from절은 불가
 
             tx.commit();
         }catch (Exception e){
