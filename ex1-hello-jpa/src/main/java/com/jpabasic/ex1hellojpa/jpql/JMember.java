@@ -14,6 +14,9 @@ public class JMember {
     @JoinColumn(name = "TEAM_ID")
     private JTeam team;
 
+    @Enumerated(EnumType.STRING)
+    private MemberTYPE memberTYPE;
+
     public void changeTeam(JTeam team){
         this.team = team;
         team.getMembers().add(this);
