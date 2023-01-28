@@ -38,6 +38,11 @@ public class JpaMain {
                             "from JMember m";
             List<String> result =  em.createQuery(query, String.class).getResultList();
 
+            //coalesce 사용 -> 사용자 이름이 없으면 '이름 없는 회원' 반환
+            List<String> result2 = em.createQuery("select coalesce(m.username, '이름 없는 회원') from JMember  m", String.class).getResultList();
+
+            //nullIf 사용 -> 사용자 이름이 관리자면 Null반환  나머지는 본인의 이름 반환
+            List<String> result3 = em.createQuery("select nullif(m.username, '관리자') from JMember  m", String.class).getResultList();
 
 
             tx.commit();
