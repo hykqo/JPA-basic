@@ -29,16 +29,15 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            //enumtype 패키지 사용법
-            List<JMember> members = em.createQuery("select m  from JMember m join Team t where m.memberTYPE= com.jpabasic.ex1hellojpa.jpql.MemberTYPE.ADMIN", JMember.class).getResultList();
+            //기본 case식
+            String query = "select " +
+                                    "case when m.age <= 10 then '학생요금'" +
+                                    "     when m.age >= 60 then '학생요금'" +
+                                    "else '일반요금'" +
+                                    "and" +
+                            "from JMember m";
+            List<String> result =  em.createQuery(query, String.class).getResultList();
 
-            //enumtype 파라미터 바인딩 사용법
-            List<JMember> members2 = em.createQuery("select m  from JMember m join Team t where m.memberTYPE= :type", JMember.class)
-                    .setParameter("type", MemberTYPE.ADMIN)
-                    .getResultList();
-
-            //엔티티타입 사용법 - 상속관계에서 사용.
-            List<HelloItem> item = em.createQuery("select i from Item i where type(i) = Book", HelloItem.class).getResultList();
 
 
             tx.commit();
