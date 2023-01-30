@@ -31,10 +31,10 @@ public class JpaMain {
 
             //기본 case식
             String query = "select " +
-                                    "case when m.age <= 10 then '학생요금'" +
-                                    "     when m.age >= 60 then '학생요금'" +
-                                    "else '일반요금'" +
-                                    "and" +
+                                    "case when m.age <= 10 then '학생요금' " +
+                                    "     when m.age >= 60 then '학생요금' " +
+                                    "     else '일반요금' " +
+                                    "end " +
                             "from JMember m";
             List<String> result =  em.createQuery(query, String.class).getResultList();
 
@@ -43,7 +43,6 @@ public class JpaMain {
 
             //nullIf 사용 -> 사용자 이름이 관리자면 Null반환  나머지는 본인의 이름 반환
             List<String> result3 = em.createQuery("select nullif(m.username, '관리자') from JMember  m", String.class).getResultList();
-
 
             tx.commit();
         }catch (Exception e){
