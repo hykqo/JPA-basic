@@ -1,12 +1,10 @@
 package com.jpabasic.ex1hellojpa;
 
-import com.jpabasic.ex1hellojpa.hellojpa.HelloItem;
-import com.jpabasic.ex1hellojpa.hellojpa.HelloMember;
 import com.jpabasic.ex1hellojpa.jpql.JMember;
 import com.jpabasic.ex1hellojpa.jpql.JTeam;
-import com.jpabasic.ex1hellojpa.jpql.MemberTYPE;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
 public class JpaMain {
@@ -29,14 +27,21 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select function('group_concat', m.username) from JMember  m";
-            List<String> result = em.createQuery(query, String.class).getResultList();
-            for(String s : result) System.out.println("s = " + s);
+            //경로표현식 - 단일 값 연관필드 - 묵시적 조인 발생. 탐색 O
+            List<JTeam> result = em.createQuery("select m.team from JMember m", JTeam.class).getResultList();
+            for(JTeam s : result) System.out.println("s = " + s);
 
+            //경로표현식 - 컬렉션 값 연관필드 - 묵시적 조인 발생, 탐색 X
+            List<Collection> result2 = em.createQuery("select t.members from JTeam t", Collection.class).getResultList();
+//            for(Collection s : result2) System.out.println("s = " + s);
 
-            //하이버네이트에서는 해당 형식으로 지원을 한다 injectLanguage 를 끄고 해당 형식으로 작성해도 된다.
-            String query = "select group_concat(m.username) from JMember  m";
-            List<String> result = em.createQuery(query, String.class).getResultList();
+            //경로표현식 - 컬렉션 값 연관필드 - 실무 활용 size
+            List<Integer> result3 = em.createQuery("select size(t.members) from JTeam t", Integer.class).getResultList();
+            System.out.println(result3);
+
+            //경로표현식 - 명시적 조인 사용
+            List<Integer> result4 = em.createQuery("select size(t.members) from JTeam t", Integer.class).getResultList();
+            System.out.println(result3);
 
             tx.commit();
         }catch (Exception e){
