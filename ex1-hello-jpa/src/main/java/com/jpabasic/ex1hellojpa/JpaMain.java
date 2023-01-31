@@ -14,34 +14,65 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try{
-            JTeam team = new JTeam();
-            team.setName("teamA");
-            em.persist(team);
+            JTeam teamA = new JTeam();
+            teamA.setName("teamA");
+            em.persist(teamA);
 
-            JMember member = new JMember();
-            member.setUsername("team1");
-            member.setAge(10);
-            member.setTeam(team);
-            em.persist(member);
+            JTeam teamB = new JTeam();
+            teamB.setName("teamB");
+            em.persist(teamB);
+
+            JMember member1 = new JMember();
+            member1.setUsername("member1");
+            member1.setAge(10);
+            member1.setTeam(teamA);
+            em.persist(member1);
+
+            JMember member2 = new JMember();
+            member2.setUsername("member2");
+            member2.setAge(10);
+            member2.setTeam(teamA);
+            em.persist(member2);
+
+            JMember member3 = new JMember();
+            member3.setUsername("member3");
+            member3.setAge(10);
+            member3.setTeam(teamB);
+            em.persist(member3);
 
             em.flush();
             em.clear();
 
-            //경로표현식 - 단일 값 연관필드 - 묵시적 조인 발생. 탐색 O
-            List<JTeam> result = em.createQuery("select m.team from JMember m", JTeam.class).getResultList();
-            for(JTeam s : result) System.out.println("s = " + s);
+            //fetch join없이 조회
+            List<JMember> result = em.createQuery("select m from JMember m", JMember.class).getResultList();
 
-            //경로표현식 - 컬렉션 값 연관필드 - 묵시적 조인 발생, 탐색 X
-            List<Collection> result2 = em.createQuery("select t.members from JTeam t", Collection.class).getResultList();
-//            for(Collection s : result2) System.out.println("s = " + s);
+            //연관관계는 성능향상을 위해서 Lazy(지연로딩)으로 설정해두었다.
+            // 이경우에 만약 fetch Join을 사용하지 않았을 경우 m.getTeam()을 db에 보유한 만큼 가져온다.
+            //ex)
+            // 회원1 , 팀A(SQL)
+            // 회원2 , 팀A(1차캐시)
+            // 회원3 , 팀B(SQL)
+            //최악의 경우 N+1이슈가 생긴다.
+            for(JMember m : result) {
+                System.out.println("m.getUsername() = " + m.getUsername());
+                System.out.println("m.getTeam().getName() = " + m.getTeam().getName());
+            }
 
-            //경로표현식 - 컬렉션 값 연관필드 - 실무 활용 size
-            List<Integer> result3 = em.createQuery("select size(t.members) from JTeam t", Integer.class).getResultList();
-            System.out.println(result3);
+            //fetch join 사용
+            //한방쿼리 발생
+            List<JMember> result2 = em.createQuery("select m from JMember m join fetch m.team", JMember.class).getResultList();
 
-            //경로표현식 - 명시적 조인 사용
-            List<Integer> result4 = em.createQuery("select size(t.members) from JTeam t", Integer.class).getResultList();
-            System.out.println(result3);
+            for(JMember m : result) {
+                System.out.println("m.getUsername() = " + m.getUsername());
+                System.out.println("m.getTeam().getName() = " + m.getTeam().getName());
+            }
+
+            //Collection fetch join
+            List<JTeam> result3 = em.createQuery("select t from JTeam t join fetch t.members", JTeam.class).getResultList();
+
+            for(JTeam t : result3) System.out.println("t.getName() = " + t.getName() + ", [members="+t.getMembers()+"]");
+
+
 
             tx.commit();
         }catch (Exception e){
