@@ -69,8 +69,16 @@ public class JpaMain {
 
             //Collection fetch join
             List<JTeam> result3 = em.createQuery("select t from JTeam t join fetch t.members", JTeam.class).getResultList();
-
             for(JTeam t : result3) System.out.println("t.getName() = " + t.getName() + ", [members="+t.getMembers()+"]");
+
+            //Collection fetch join - DISTINCT를 이용하여 중복 제거.
+            List<JTeam> result4 = em.createQuery("select distinct t from JTeam t join fetch t.members", JTeam.class).getResultList();
+            for(JTeam t : result4) System.out.println("t.getName() = " + t.getName() + ", [members="+t.getMembers()+"]");
+
+            //페치조인과 일반조인의 차이점 분석
+            //일반조인
+            List<JTeam> result5 = em.createQuery("select t from JTeam t join t.members", JTeam.class).getResultList();
+            for(JTeam t : result5) System.out.println("t.getName() = " + t.getName() + ", [members="+t.getMembers()+"]");
 
 
 
