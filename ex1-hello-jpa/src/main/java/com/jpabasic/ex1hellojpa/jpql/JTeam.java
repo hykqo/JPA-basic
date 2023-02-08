@@ -1,6 +1,7 @@
 package com.jpabasic.ex1hellojpa.jpql;
 
 import com.jpabasic.ex1hellojpa.hellojpa.Team;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class JTeam {
     @Id @GeneratedValue
     private Long id;
     private String name;
+
     @OneToMany(mappedBy = "team")
     private List<JMember> members = new ArrayList<>();
 
