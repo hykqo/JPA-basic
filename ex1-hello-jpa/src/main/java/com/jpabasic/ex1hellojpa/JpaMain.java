@@ -46,13 +46,9 @@ public class JpaMain {
             em.clear();
 
 
-            //엔티티값으로 조회시 sql은 기본키값으로 조회
-            List<JMember> result = em.createQuery("select m from Member m where m = :member", JMember.class)
-                    .getResultList();
-            for(JMember i : result) System.out.println(i.getUsername());
-
-            //연관된 엔티티값으로 조회시 sql은 외래키값으로 조회
-            List<JMember> result2 = em.createQuery("select m from JMember m where m.team.id = :teamId", JMember.class)
+            //NamedQuery 사용
+            List<JMember> result = em.createNamedQuery("Member.findByUsername", JMember.class)
+                    .setParameter("username", "member1")
                     .getResultList();
             for(JMember i : result) System.out.println(i.getUsername());
 

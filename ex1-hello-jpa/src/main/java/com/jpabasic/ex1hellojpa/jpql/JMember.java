@@ -4,6 +4,10 @@ import com.jpabasic.ex1hellojpa.hellojpa.Team;
 
 import javax.persistence.*;
 @Entity
+@NamedQuery(
+        name = "Member.findByUsername",
+        query = "select m from JMember m where m.username =:username"
+)
 public class JMember {
 
     @Id @GeneratedValue
