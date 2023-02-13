@@ -46,15 +46,15 @@ public class JpaMain {
             em.clear();
 
 
-            //다형성 쿼리 type전략
-            List<HelloItem> result = em.createQuery("select i from HelloItem  i where type(i) in (HelloBook , HelloMovie)", HelloItem.class)
+            //엔티티값으로 조회시 sql은 기본키값으로 조회
+            List<JMember> result = em.createQuery("select m from Member m where m = :member", JMember.class)
                     .getResultList();
-            for(HelloItem i : result) System.out.println(i.getName());
+            for(JMember i : result) System.out.println(i.getUsername());
 
-            //다형성 쿼리 treat전략 (다운캐스팅)
-            List<HelloItem> result2 = em.createQuery("select i from HelloItem  i where treat(i as HelloBook).Autoor = 'kim'", HelloItem.class)
+            //연관된 엔티티값으로 조회시 sql은 외래키값으로 조회
+            List<JMember> result2 = em.createQuery("select m from JMember m where m.team.id = :teamId", JMember.class)
                     .getResultList();
-            for(HelloItem i : result) System.out.println(i.getName());
+            for(JMember i : result) System.out.println(i.getUsername());
 
             tx.commit();
         }catch (Exception e){
