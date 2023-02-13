@@ -46,12 +46,9 @@ public class JpaMain {
             em.clear();
 
 
-            //NamedQuery 사용
-            List<JMember> result = em.createNamedQuery("Member.findByUsername", JMember.class)
-                    .setParameter("username", "member1")
-                    .getResultList();
-            for(JMember i : result) System.out.println(i.getUsername());
-
+            //벌크연산
+            int resultCount = em.createQuery("update JMember m set m.age = 20").executeUpdate();
+            System.out.println("resultCount = " + resultCount);
             tx.commit();
         }catch (Exception e){
             e.printStackTrace();
